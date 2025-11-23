@@ -471,13 +471,17 @@ Operating Conditions:
         viz_frame.grid_rowconfigure(0, weight=1)
         viz_frame.grid_columnconfigure(0, weight=1)
 
+        # Create container for canvas and toolbar (to avoid grid/pack conflict)
+        canvas_container = ttk.Frame(viz_frame)
+        canvas_container.grid(row=0, column=0, sticky='nsew')
+
         # Create matplotlib figure
         self.tariff_fig = Figure(figsize=(10, 6), dpi=100)
-        self.tariff_canvas = FigureCanvasTkAgg(self.tariff_fig, master=viz_frame)
-        self.tariff_canvas.get_tk_widget().grid(row=0, column=0, sticky='nsew')
+        self.tariff_canvas = FigureCanvasTkAgg(self.tariff_fig, master=canvas_container)
+        self.tariff_canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=True)
 
-        # Add toolbar
-        toolbar = NavigationToolbar2Tk(self.tariff_canvas, viz_frame)
+        # Add toolbar (uses pack internally)
+        toolbar = NavigationToolbar2Tk(self.tariff_canvas, canvas_container)
         toolbar.update()
 
     def create_motor_steady_state_tab(self):
@@ -537,11 +541,15 @@ Operating Conditions:
         plot_frame.grid_rowconfigure(0, weight=1)
         plot_frame.grid_columnconfigure(0, weight=1)
 
-        self.motor_ss_fig = Figure(figsize=(12, 8), dpi=100)
-        self.motor_ss_canvas = FigureCanvasTkAgg(self.motor_ss_fig, master=plot_frame)
-        self.motor_ss_canvas.get_tk_widget().grid(row=0, column=0, sticky='nsew')
+        # Create container for canvas and toolbar (to avoid grid/pack conflict)
+        canvas_container = ttk.Frame(plot_frame)
+        canvas_container.grid(row=0, column=0, sticky='nsew')
 
-        toolbar = NavigationToolbar2Tk(self.motor_ss_canvas, plot_frame)
+        self.motor_ss_fig = Figure(figsize=(12, 8), dpi=100)
+        self.motor_ss_canvas = FigureCanvasTkAgg(self.motor_ss_fig, master=canvas_container)
+        self.motor_ss_canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=True)
+
+        toolbar = NavigationToolbar2Tk(self.motor_ss_canvas, canvas_container)
         toolbar.update()
 
     def create_motor_dynamic_tab(self):
@@ -616,11 +624,15 @@ Operating Conditions:
         plot_frame.grid_rowconfigure(0, weight=1)
         plot_frame.grid_columnconfigure(0, weight=1)
 
-        self.dynamic_fig = Figure(figsize=(12, 8), dpi=100)
-        self.dynamic_canvas = FigureCanvasTkAgg(self.dynamic_fig, master=plot_frame)
-        self.dynamic_canvas.get_tk_widget().grid(row=0, column=0, sticky='nsew')
+        # Create container for canvas and toolbar (to avoid grid/pack conflict)
+        canvas_container = ttk.Frame(plot_frame)
+        canvas_container.grid(row=0, column=0, sticky='nsew')
 
-        toolbar = NavigationToolbar2Tk(self.dynamic_canvas, plot_frame)
+        self.dynamic_fig = Figure(figsize=(12, 8), dpi=100)
+        self.dynamic_canvas = FigureCanvasTkAgg(self.dynamic_fig, master=canvas_container)
+        self.dynamic_canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=True)
+
+        toolbar = NavigationToolbar2Tk(self.dynamic_canvas, canvas_container)
         toolbar.update()
 
     def create_ode_solver_comparison_tab(self):
@@ -664,11 +676,15 @@ Differential Equations Solved:
         plot_frame.grid_rowconfigure(0, weight=1)
         plot_frame.grid_columnconfigure(0, weight=1)
 
-        self.comparison_fig = Figure(figsize=(12, 8), dpi=100)
-        self.comparison_canvas = FigureCanvasTkAgg(self.comparison_fig, master=plot_frame)
-        self.comparison_canvas.get_tk_widget().grid(row=0, column=0, sticky='nsew')
+        # Create container for canvas and toolbar (to avoid grid/pack conflict)
+        canvas_container = ttk.Frame(plot_frame)
+        canvas_container.grid(row=0, column=0, sticky='nsew')
 
-        toolbar = NavigationToolbar2Tk(self.comparison_canvas, plot_frame)
+        self.comparison_fig = Figure(figsize=(12, 8), dpi=100)
+        self.comparison_canvas = FigureCanvasTkAgg(self.comparison_fig, master=canvas_container)
+        self.comparison_canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=True)
+
+        toolbar = NavigationToolbar2Tk(self.comparison_canvas, canvas_container)
         toolbar.update()
 
     # Callback functions for HV/LV Tariff
